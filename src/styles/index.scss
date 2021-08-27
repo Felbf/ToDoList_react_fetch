@@ -1,13 +1,112 @@
 @import "~bootstrap/scss/bootstrap.scss";
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans+Condensed:ital,wght@1,300&display=swap');
 
-/* 
 
-    You can write your own styles here...
-    
-    
-    ...Or you can use the import command to include 
-    other sylesheets into your bunde as well, e.j:
-    
-    import 'relative/path/to/stylesheet.scss';
 
-*/
+
+body {
+    font-family: 'Open Sans Condensed', sans-serif;
+    line-height: 1.4em;
+    background: #eeeeee;
+    color: #333333;
+    width: 520px;
+    margin: 0 auto;
+    padding: 0;
+}
+
+.header {
+  color: rgb(172, 26, 0);
+  font-size: 70px;
+  font-weight: bold;
+  text-align: center;
+  padding: 0 0 10px 0;
+}
+
+i {
+  color: rgb(172, 26, 0);
+}
+
+.bodyTodo {
+    background: #fff;
+    padding: 20px;
+    margin-bottom: 40px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    border-radius: 0 0 5px 5px;
+    position: absolute;
+}
+  #page2 {
+    background: #fff;
+    padding: 12px;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 2px 6px 0;
+    border-radius: 0 0 5px 5px;
+    margin-left: -15px;
+    width: 498px;
+    position: absolute;
+    z-index: -1;
+}
+
+  #page3 {
+    background: #fff;
+    padding: 12px;
+    box-shadow: rgb(0 0 0 / 20%) 0 2px 6px 0;
+    border-radius: 0 0 5px 5px;
+    margin-top: 4px;
+    margin-left: -13px;
+    width: 493px;
+    position: absolute;
+    z-index: -2;
+}
+ 
+h1 {
+    font-size: 36px;
+    font-weight: bold;
+    text-align: center;
+    padding: 0 0 10px 0;
+}
+.inputTask{
+    
+    width: 466px;
+    font-size: 24px;
+    font-family: inherit;
+    line-height: 1.4em;
+    border: 0;
+    outline: none;
+    padding: 6px;
+    border: 1px solid #999999;
+    box-shadow: rgba(0, 0, 0, 0.2) 0 1px 2px 0 inset;
+}
+.inputTask::-webkit-input-placeholder {
+    font-style: italic;
+}
+.tasks{
+    margin: 10px 0;
+    padding: 0;
+    list-style: none;   
+}
+.task{
+    padding: 18px 20px 18px 0;
+    position: relative;
+    font-size: 24px;
+    border-bottom: 1px solid #cccccc;
+}
+.delete{
+    position: absolute;
+    right: 5px;
+    top: 20px;
+    display: none;
+    background: none;
+    width: 20px;
+    height: 20px;
+}
+.tasks{
+    .task{
+        .delete{
+             display:none;
+        }
+         &:hover{
+             .delete{
+             display:block;
+             }
+         }
+    }
+};
