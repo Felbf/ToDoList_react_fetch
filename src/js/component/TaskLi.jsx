@@ -3,14 +3,13 @@ import PropTypes from "prop-types";
 
 //create your first component
 const TaskLi = ({ task, index, deleteTask }) => {
+	function deletedTask() {
+		deleteTask(task);
+	}
 	return (
 		<li className="task">
 			<span>{task}</span>
-			<span
-				className="delete"
-				onClick={() => {
-					deleteTask(index);
-				}}>
+			<span className="delete" onClick={deletedTask}>
 				<i className="fas fa-times"></i>
 			</span>
 		</li>

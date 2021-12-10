@@ -10,7 +10,7 @@ const CounterTasks = ({ tasks }) => {
 };
 
 CounterTasks.propTypes = {
-	tasks: PropTypes.string
+	tasks: PropTypes.array
 };
 
 export default CounterTasks;

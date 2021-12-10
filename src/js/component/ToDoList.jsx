@@ -4,27 +4,97 @@ import TaskLi from "./TaskLi.jsx";
 import CounterTasks from "./CounterTasks.jsx";
 
 const ToDoList = () => {
-	const [tasks, setTasks] = useState(["Your task"]);
-	const [newTask, setNewTask] = useState("");
-	const [taskExists, setTaskExist] = useState(false);
+	const [tasks, setTasks] = useState([
+		{ label: "Tienes que...", done: false }
+	]);
 
-	function newTaskChange(event) {
-		setNewTask(event.target.value);
+	async function newUser() {
+		return fetch("https://assets.breatheco.de/apis/fake/todos/user/Felbf", {
+			method: "POST",
+			mode: "cors",
+			redirect: "follow",
+			headers: {
+				"Content-Type": "application/json"
+			},
+			body: JSON.stringify([])
+		})
+			.then(function(response) {
+				if (!response.ok) {
+					throw Error(response.statusText);
+				}
+			})
+			.catch(function(error) {
+				alert("Lo sentimos, el usuario no puede ser creado\n", error);
+			});
+	}
+
+	async function getList() {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Felbf", {
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.then(data => {
+				console.log(data); //here is were your code should start after the fetch finishes
+				setTasks(data); //this will print on the console the exact object received from the server
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
 	}
 
 	useEffect(() => {
-		let position = tasks.findIndex(task => task === newTask);
-		if (position === -1) {
-			setTaskExist(false) && newTask;
+		if (tasks.length === 0) {
+			newUser();
+			getList();
 		} else {
-			setTaskExist(true) && !newTask;
+			getList();
 		}
-	});
+	}, []);
 
-	function addNewTask(event) {
-		if (event.key.toLowerCase() === "enter" && !taskExists) {
-			setTasks([...tasks, newTask]);
+	async function updateList(tasks) {
+		fetch("https://assets.breatheco.de/apis/fake/todos/user/Felbf", {
+			method: "PUT",
+			body: JSON.stringify(tasks),
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
+	}
+
+	useEffect(() => {
+		if (tasks.length !== 0) {
+			updateList(tasks);
 		}
+	}, [tasks]);
+
+	async function deleteList() {
+		await fetch("https://assets.breatheco.de/apis/fake/todos/user/Felbf", {
+			method: "DELETE",
+			headers: {
+				"Content-Type": "application/json"
+			}
+		})
+			.then(resp => {
+				return resp.json(); // (returns promise) will try to parse the result as json as return a promise that you can .then for results
+			})
+			.catch(error => {
+				//error handling
+				console.log(error);
+			});
+		newUser();
+		setTasks([]);
 	}
 
 	function deleteTask(indexRemove) {
@@ -37,12 +107,12 @@ const ToDoList = () => {
 		<div>
 			<h1 className="header">To do&apos;s</h1>
 			<div className="bodyTodo">
-				<InputText onKeyDown={addNewTask} onChange={newTaskChange} />
+				<InputText tasks={tasks} setTasks={setTasks} />
 				<ul className="tasks">
-					{tasks.map((task, index) => (
+					{tasks.map((listTask, index) => (
 						<TaskLi
 							key={index}
-							task={task}
+							task={listTask.label}
 							index={index}
 							deleteTask={deleteTask}
 						/>
@@ -50,6 +120,9 @@ const ToDoList = () => {
 				</ul>
 				<div className="counterTasks">
 					<CounterTasks tasks={tasks} />
+					<button className="btn-deleteTodos" onClick={deleteList}>
+						Borrar Lista
+					</button>
 				</div>
 				<div id="page2"></div>
 				<div id="page3"></div>

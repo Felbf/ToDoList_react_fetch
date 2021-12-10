@@ -1,14 +1,37 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import PropTypes from "prop-types";
 
 //create your first component
-const InputText = ({ onKeyDown, onChange }) => {
-	const [value, setValue] = useState("");
+const InputText = ({ tasks, setTasks }) => {
+	const [newTask, setNewTask] = useState("");
+	const [taskExist, setTaskExist] = useState(false);
+
+	useEffect(() => {
+		let position = tasks.findIndex(task => task === newTask);
+		if (position === -1) {
+			setTaskExist(false) && newTask;
+		} else {
+			setTaskExist(true) && !newTask;
+		}
+	}, [newTask]);
 
 	function valueChange(event) {
-		setValue(event.target.value);
-		onChange(event);
+		setNewTask(event.target.value);
 	}
+
+	function addNewTask(event) {
+		if (event.key.toLowerCase() === "enter" && !taskExist) {
+			let position = tasks.findIndex(task => task.label === newTask);
+			if (position === -1) {
+				setTasks([...tasks, { label: newTask, done: false }]);
+				setNewTask("");
+			}
+		}
+	}
+
+	// function newTaskChange(event) {
+	// 	setNewTask(event.target.value);
+	// }
 
 	return (
 		<input
@@ -16,15 +39,14 @@ const InputText = ({ onKeyDown, onChange }) => {
 			type="text"
 			placeholder="No tasks, add a task"
 			onChange={valueChange}
-			onKeyDown={onKeyDown}
-			value={value}
+			onKeyDown={addNewTask}
 		/>
 	);
 };
 
 InputText.propTypes = {
-	onKeyDown: PropTypes.func,
-	onChange: PropTypes.func
+	tasks: PropTypes.array,
+	setTasks: PropTypes.func
 };
 
 export default InputText;
