@@ -4,9 +4,7 @@ import TaskLi from "./TaskLi.jsx";
 import CounterTasks from "./CounterTasks.jsx";
 
 const ToDoList = () => {
-	const [tasks, setTasks] = useState([
-		{ label: "Tienes que...", done: false }
-	]);
+	const [tasks, setTasks] = useState([{ label: "", done: false }]);
 
 	async function newUser() {
 		return fetch("https://assets.breatheco.de/apis/fake/todos/user/Felbf", {

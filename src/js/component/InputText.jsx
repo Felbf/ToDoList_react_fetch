@@ -20,7 +20,10 @@ const InputText = ({ tasks, setTasks }) => {
 	}
 
 	function addNewTask(event) {
-		if (event.key.toLowerCase() === "enter" && !taskExist) {
+		if (
+			event.key.toLowerCase() === "enter" &&
+			event.target.value.trim() != ""
+		) {
 			let position = tasks.findIndex(task => task.label === newTask);
 			if (position === -1) {
 				setTasks([...tasks, { label: newTask, done: false }]);
@@ -37,6 +40,7 @@ const InputText = ({ tasks, setTasks }) => {
 		<input
 			className="inputTask"
 			type="text"
+			value={newTask}
 			placeholder="No tasks, add a task"
 			onChange={valueChange}
 			onKeyDown={addNewTask}
